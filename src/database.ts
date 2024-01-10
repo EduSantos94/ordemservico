@@ -9,16 +9,6 @@ const client = new Client({
   database: process.env.PGDATABASE || '',
 });
 
-// const connectToDatabase = async (): Promise<void> => {
-//   try {
-//     await client.connect();
-//     console.log('Connected to the database!');
-//   } catch (error) {
-//     console.error('Error connecting to the database:', error);
-//   }
-// };
-
 const getClient = (): Client => client;
 
-// export { connectToDatabase, getClient };
 export { getClient };
