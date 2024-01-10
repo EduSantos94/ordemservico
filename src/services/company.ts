@@ -1,15 +1,11 @@
-import {Request,Response} from 'express'
-import { getClient } from '@/database'
-
-let client = getClient()
-client.connect()
+import { Request, Response } from 'express';
+import knex from '@/database';
 
 export default new class Company {
-  public async get(request: Request, response: Response){
-    const id = request.params.id
+  public async get(request: Request, response: Response) {
+    const id = request.params.id;
     try {
-      const result = await client.query('SELECT * FROM companies WHERE company_id = $1', [id]);
-      const companyData = result.rows[0];
+      const companyData = await knex('companies').where('company_id', id).first();
 
       if (companyData) {
         response.json({ company: companyData });
@@ -22,7 +18,7 @@ export default new class Company {
     }
   }
 
-  public async getExampleError(request: Request, response: Response){
-    response.status(400).json({message: 'Example Route Error'})
+  public async getExampleError(request: Request, response: Response) {
+    response.status(400).json({ message: 'Example Route Error' });
   }
 }
