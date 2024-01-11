@@ -1,5 +1,7 @@
 import express from 'express'
-import company from '@/controllers/company'
+import companies from '@/controllers/companies'
+import plans from '@/controllers/plans'
+import products from '@/controllers/plans'
 
 const routes = express.Router();
 
@@ -7,6 +9,8 @@ routes.get('/', (req, res) => {
   res.json({"API": "API NODE"})
 })
 
-routes.use('/company', company.router)
+routes.use('/companies', companies.router)
+routes.use('/plans', plans.router)
+routes.use('/products', products.router)
 
 export default routes

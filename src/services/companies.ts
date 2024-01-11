@@ -1,12 +1,15 @@
 import { Request, Response } from 'express';
 import knex from '@/database';
 
-export default new class Company {
+export default new class Companies {
   public async get(request: Request, response: Response) {
-    const id = request.params.id;
+    let companyData;
     try {
-      const companyData = await knex('companies').where('company_id', id).first();
-
+      if (request.params.id) {
+        companyData = await knex('companies').where('company_id', request.params.id).first();
+      } else {
+        companyData = await knex('companies').select();
+      }
       if (companyData) {
         response.json({ company: companyData });
       } else {
