@@ -11,6 +11,8 @@ export default new class Company {
 
   initRoutes(){
     this.router.get('/:id', company.get)
-    this.router.post('/update', company.getExampleError)
+    this.router.post('/', company.post)
+    this.router.put('/:id', company.put)
+    this.router.delete('/:id', company.delete)
   }
 }
