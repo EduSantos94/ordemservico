@@ -35,7 +35,7 @@ CREATE TABLE plans (
 CREATE TABLE services (
     service_id SERIAL PRIMARY KEY,
     name VARCHAR(255),
-    user_id INT REFERENCES users(user_id),
+    provider_id INT REFERENCES users(user_id),
     client_id INT REFERENCES users(user_id),
     price DECIMAL(10, 2) NOT NULL,
     is_done BOOLEAN DEFAULT FALSE,

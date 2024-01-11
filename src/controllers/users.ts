@@ -2,7 +2,7 @@ import users from "@/services/users"
 import { Router } from "express"
 
 
-export default new class Companies {
+export default new class Users {
   router = Router()
 
   constructor(){

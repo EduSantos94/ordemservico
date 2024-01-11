@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import knex from '@/database';
 
-export default new class Products {
+export default new class Users {
   public async get(request: Request, response: Response) {
     try {
       let userData;
