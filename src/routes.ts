@@ -6,6 +6,7 @@ import users from '@/controllers/users'
 import services from '@/controllers/services'
 import serviceProducts from '@/controllers/serviceProducts'
 import serviceImages from '@/controllers/serviceImages'
+import login from '@/controllers/login'
 
 const routes = express.Router();
 
@@ -14,6 +15,7 @@ routes.get('/', (req, res) => {
 })
 
 routes.use('/companies', companies.router)
+routes.use('/login', login.router)
 routes.use('/plans', plans.router)
 routes.use('/products', products.router)
 routes.use('/users', users.router)

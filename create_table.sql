@@ -15,7 +15,7 @@ CREATE TABLE users (
     name VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255),
-    phone INTEGER,
+    phone BIGINT,
     type CHAR(1) NOT NULL,
     created_at INT(11) NOT NULL,
     updated_at INT(11)
