@@ -27,7 +27,7 @@ export default new class Login {
           },
         };
       }
-      response.status(201).json({ token: _user_token });
+      response.status(201).json(_user_token);
     } catch (error) {
       console.error('Error creating user:', error);
       response.status(500).json({ message: 'Internal server error' });
