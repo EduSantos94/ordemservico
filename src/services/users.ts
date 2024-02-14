@@ -1,15 +1,10 @@
 import { Request, Response } from 'express';
 import knex from '@/database';
-import api from '@/api';
 
 export default new class Users {
   public async get(request: Request, response: Response) {
     try {
       let userData;
-      //Para testes
-      let interceptors = await api.get(`/users/${request.params.id}`);
-      console.log(interceptors);
-  
       if (request.params.id) {
         userData = await knex('users')
           .where('user_id', request.params.id)
