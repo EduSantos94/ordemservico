@@ -5,7 +5,6 @@ export default new class Users {
   public async get(request: Request, response: Response) {
     try {
       let userData;
-  
       if (request.params.id) {
         userData = await knex('users')
           .where('user_id', request.params.id)
