@@ -23,6 +23,7 @@ export default new class Login {
             user_id: user.user_id,
             name: user.name,
             email: user.email,
+            company_id: user.company_id,
             type: user.type
           },
         };
