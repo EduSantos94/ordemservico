@@ -8,6 +8,7 @@ import orderProducts from '@/controllers/orderProducts'
 import orderImages from '@/controllers/orderImages'
 import orderServices from '@/controllers/orderServices'
 import login from '@/controllers/login'
+import services from '@/controllers/services'
 import { verifyJWT } from './utils'
 
 const routes = express.Router()
@@ -24,6 +25,6 @@ routes.use('/users', verifyJWT, users.router)
 routes.use('/orders', verifyJWT,orders.router)
 routes.use('/orderProducts', verifyJWT,orderProducts.router)
 routes.use('/ordemImages', verifyJWT,orderImages.router)
-routes.use('/orderServices', verifyJWT,orderServices.router)
+routes.use('/services', verifyJWT,services.router)
 
 export default routes
