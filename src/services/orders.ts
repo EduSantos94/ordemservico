@@ -1,32 +1,32 @@
 import { Request, Response } from 'express';
 import knex from '@/database';
 
-export default new class Services {
+export default new class Orders {
   public async get(request: Request, response: Response) {
     try {
-      let serviceData;
+      let orderData;
 
       if (request.params.id) {
-        serviceData = await knex('services')
-          .where('service_id', request.params.id)
+        orderData = await knex('orders')
+          .where('order_id', request.params.id)
           .first()
           .select('*')
-          .join('users as providers', 'services.provider_id', '=', 'providers.user_id')
-          .join('users as clients', 'services.client_id', '=', 'clients.user_id');
+          .join('users as providers', 'orders.provider_id', '=', 'providers.user_id')
+          .join('users as clients', 'orders.client_id', '=', 'clients.user_id');
       } else {
-        serviceData = await knex('services')
+        orderData = await knex('orders')
           .select('*')
-          .join('users as providers', 'services.provider_id', '=', 'providers.user_id')
-          .join('users as clients', 'services.client_id', '=', 'clients.user_id');
+          .join('users as providers', 'orders.provider_id', '=', 'providers.user_id')
+          .join('users as clients', 'orders.client_id', '=', 'clients.user_id');
       }
 
-      if (serviceData) {
-        response.json({ service: serviceData });
+      if (orderData) {
+        response.json({ order: orderData });
       } else {
-        response.status(404).json({ message: 'Service not found' });
+        response.status(404).json({ message: 'Order not found' });
       }
     } catch (error) {
-      console.error('Error retrieving service:', error);
+      console.error('Error retrieving order:', error);
       response.status(500).json({ message: 'Internal server error' });
     }
   }
@@ -34,7 +34,7 @@ export default new class Services {
   public async post(request: Request, response: Response) {
     const { name, provider_id, client_id, price, is_done, is_paid, context } = request.body;
     try {
-      const [newServiceData] = await knex('services')
+      const [newOrderData] = await knex('orders')
         .returning('*')
         .insert({
           name,
@@ -47,9 +47,9 @@ export default new class Services {
           created_at: Math.floor(Date.now() / 1000),
         });
 
-      response.status(201).json({ service: newServiceData });
+      response.status(201).json({ order: newOrderData });
     } catch (error) {
-      console.error('Error creating service:', error);
+      console.error('Error creating order:', error);
       response.status(500).json({ message: 'Internal server error' });
     }
   }
@@ -58,9 +58,9 @@ export default new class Services {
     const id = request.params.id;
     const { name, provider_id, client_id, price, is_done, is_paid, context } = request.body;
     try {
-      const [updatedServiceData] = await knex('services')
+      const [updatedOrderData] = await knex('orders')
         .returning('*')
-        .where('service_id', id)
+        .where('order_id', id)
         .update({
           name,
           provider_id,
@@ -72,13 +72,13 @@ export default new class Services {
           updated_at: Math.floor(Date.now() / 1000),
         });
 
-      if (updatedServiceData) {
-        response.json({ service: updatedServiceData });
+      if (updatedOrderData) {
+        response.json({ order: updatedOrderData });
       } else {
-        response.status(404).json({ message: 'Service not found' });
+        response.status(404).json({ message: 'Order not found' });
       }
     } catch (error) {
-      console.error('Error updating service:', error);
+      console.error('Error updating order:', error);
       response.status(500).json({ message: 'Internal server error' });
     }
   }
@@ -87,18 +87,18 @@ export default new class Services {
     const id = request.params.id;
 
     try {
-      const deletedServiceData = await knex('services')
+      const deletedOrderData = await knex('orders')
         .returning('*')
-        .where('service_id', id)
+        .where('order_id', id)
         .del();
 
-      if (deletedServiceData.length > 0) {
-        response.json({ message: 'Service deleted successfully' });
+      if (deletedOrderData.length > 0) {
+        response.json({ message: 'Order deleted successfully' });
       } else {
-        response.status(404).json({ message: 'Service not found' });
+        response.status(404).json({ message: 'Order not found' });
       }
     } catch (error) {
-      console.error('Error deleting service:', error);
+      console.error('Error deleting order:', error);
       response.status(500).json({ message: 'Internal server error' });
     }
   }
