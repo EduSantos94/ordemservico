@@ -10,12 +10,12 @@ export default new class Orders {
         orderData = await knex('orders')
           .where('order_id', request.params.id)
           .first()
-          .select('*')
+          .select('orders.*')
           .join('users as providers', 'orders.provider_id', '=', 'providers.user_id')
           .join('users as clients', 'orders.client_id', '=', 'clients.user_id');
       } else {
         orderData = await knex('orders')
-          .select('*')
+          .select('orders.*')
           .join('users as providers', 'orders.provider_id', '=', 'providers.user_id')
           .join('users as clients', 'orders.client_id', '=', 'clients.user_id');
       }
@@ -99,6 +99,29 @@ export default new class Orders {
       }
     } catch (error) {
       console.error('Error deleting order:', error);
+      response.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
+  public async provider(request: Request, response: Response) {
+    try {
+      let orderData;
+
+      if (request.params.id) {
+        orderData = await knex('orders as o')
+        .select('o.*', 'c.name AS client_name')
+        .where('o.provider_id', request.params.id)
+        // .join('users as p', 'o.provider_id', '=', 'p.user_id')
+        .join('users as c', 'o.client_id', '=', 'c.user_id');
+
+      }
+      if (orderData) {
+        response.json({ order: orderData });
+      } else {
+        response.status(404).json({ message: 'Order not found' });
+      }
+    } catch (error) {
+      console.error('Error retrieving order:', error);
       response.status(500).json({ message: 'Internal server error' });
     }
   }

@@ -9,24 +9,35 @@ export default new class Users {
         userData = await knex('users')
           .where('user_id', request.params.id)
           .first()
-          .select(
-            'users.*',
-            'companies.name as company',
-            'plans.name as plan'
-          )
           .join('companies', 'users.company_id', '=', 'companies.company_id')
-          .join('plans', 'companies.plan_id', '=', 'plans.plan_id');
+          .join('plans', 'companies.plan_id', '=', 'plans.plan_id')
+          .select(
+            'users.user_id',
+            'users.name',
+            'users.email',
+            'users.phone',
+            'users.nickname',
+            'users.company_id',
+            'companies.name as company',
+            'plans.plan_id',
+            'plans.name as plan'
+          );
       } else {
         userData = await knex('users')
-          .select(
-            'users.*',
-            'companies.name as company_name',
-            'plans.name as plan_name'
-          )
-          .join('companies', 'users.company_id', '=', 'companies.company_id')
-          .join('plans', 'companies.plan_id', '=', 'plans.plan_id');
+        .join('companies', 'users.company_id', '=', 'companies.company_id')
+        .join('plans', 'companies.plan_id', '=', 'plans.plan_id')
+        .select(
+          'users.user_id',
+          'users.name',
+          'users.email',
+          'users.phone',
+          'users.nickname',
+          'users.company_id',
+          'companies.name as company',
+          'plans.plan_id',
+          'plans.name as plan'
+        );
       }
-  
       if (userData) {
         response.json({ user: userData });
       } else {

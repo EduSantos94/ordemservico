@@ -10,6 +10,7 @@ export default new class Orders {
   }
 
   initRoutes(){
+    this.router.get('/provider/:id?', orders.provider);
     this.router.get('/:id?', orders.get)
     this.router.post('/', orders.post)
     this.router.put('/:id', orders.put)
