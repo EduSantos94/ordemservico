@@ -14,11 +14,12 @@ CREATE TABLE users (
     company_id INT REFERENCES companies(company_id),
     name VARCHAR(255),
     email VARCHAR(255),
+    nickname VARCHAR(255),
     password VARCHAR(255),
     phone BIGINT,
     type CHAR(1) NOT NULL,
-    created_at INT(11) NOT NULL,
-    updated_at INT(11)
+    created_at INT NOT NULL,
+    updated_at INT
 );
 
 -- plans table
@@ -31,9 +32,9 @@ CREATE TABLE plans (
     updated_at INT
 );
 
--- services table
-CREATE TABLE services (
-    service_id SERIAL PRIMARY KEY,
+-- orders table
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     provider_id INT REFERENCES users(user_id),
     client_id INT REFERENCES users(user_id),
@@ -45,32 +46,48 @@ CREATE TABLE services (
     updated_at INT(11)
 );
 
+-- services table
+CREATE TABLE services (
+    service_id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    price DECIMAL(10, 2) NOT NULL,
+    created_at INT NOT NULL,
+    updated_at INT
+);
+
 -- products table
 CREATE TABLE products (
     product_id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     gtin VARCHAR(14),
+    price DECIMAL(10, 2) NOT NULL,
     created_at INT(11) NOT NULL,
     updated_at INT(11)
 );
 
--- service_products junction table
-CREATE TABLE service_products (
-    service_id INT REFERENCES services(service_id),
+-- order_products junction table
+CREATE TABLE order_products (
+    order_product_id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES orders(order_id),
     product_id INT REFERENCES products(product_id),
-    price DECIMAL(10, 2),
-    PRIMARY KEY (service_id, product_id),
-    created_at INT(11) NOT NULL,
-    updated_at INT(11)
+    created_at INT NOT NULL,
+    updated_at INT
 );
 
--- service_pictures table
-CREATE TABLE service_pictures (
-    service_picture_id SERIAL PRIMARY KEY,
+-- order_services junction table
+CREATE TABLE order_services (
+    order_service_id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES orders(order_id),
     service_id INT REFERENCES services(service_id),
-    picture_url VARCHAR(255),
-    created_at INT(11) NOT NULL,
-    updated_at INT(11)
+    created_at INT NOT NULL,
+    updated_at INT
 );
 
-
+-- order_images table
+CREATE TABLE order_images (
+    service_picture_id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES orders(order_id),
+    picture_url VARCHAR(255),
+    created_at INT NOT NULL,
+    updated_at INT
+);
