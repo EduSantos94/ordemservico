@@ -42,8 +42,8 @@ CREATE TABLE orders (
     is_done BOOLEAN DEFAULT FALSE,
     is_paid BOOLEAN DEFAULT FALSE,
     context TEXT,
-    created_at INT(11) NOT NULL,
-    updated_at INT(11)
+    created_at INT NOT NULL,
+    updated_at INT
 );
 
 -- services table
@@ -61,8 +61,8 @@ CREATE TABLE products (
     name VARCHAR(255),
     gtin VARCHAR(14),
     price DECIMAL(10, 2) NOT NULL,
-    created_at INT(11) NOT NULL,
-    updated_at INT(11)
+    created_at INT NOT NULL,
+    updated_at INT
 );
 
 -- order_products junction table
