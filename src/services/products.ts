@@ -22,13 +22,14 @@ export default new class Products {
   }
 
   public async post(request: Request, response: Response) {
-    const { name, gtin } = request.body;
+    const { name, gtin, price } = request.body;
     try {
       const [newProductData] = await knex('products')
         .returning('*')
         .insert({
           name,
           gtin,
+          price,
           created_at: Math.floor(Date.now() / 1000),
         });
       response.status(201).json({ product: newProductData });
